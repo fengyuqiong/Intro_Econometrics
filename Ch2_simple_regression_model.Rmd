@@ -1,0 +1,75 @@
+---
+title: "Ch2_Simple_regression_model"
+author: "YQ"
+date: "4/9/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 2.1 Simple OLS Regression
+Wooldridge, Example 2.3:
+First, I do it mannually. Second, I use the built-in function to obtain regression results. Finally, add the regression line to the scatter plot.
+
+```{r ex2.3}
+data(ceosal1, package = 'wooldridge')
+
+attach(ceosal1)
+
+# 1. Obtain regression results mannaually
+# ingredients to the OLS formulas
+cov(roe, salary)
+
+var(roe)
+
+mean(salary)
+
+mean(roe)
+
+# manual calculation of OLS coefficients
+(b1hat <- cov(roe,salary)/var(roe))
+
+(b0hat <- mean(salary) - b1hat*mean(roe))
+
+# "detach" the data frame
+detach(ceosal1)
+
+# 2. use built-in function
+# OLS regression
+lm(salary ~ roe, data=ceosal1)
+
+# 3. add regession line to scatter plot
+# OLS regression
+CEOregres <- lm(salary ~ roe, data = ceosal1)
+
+# Scatter plot (restrict y axis limits)
+with(ceosal1, plot(roe, salary, ylim = c(0,4000)))
+
+# Add OLS regression line
+abline(CEOregres)
+```
+Wooldridge, Example 2.4:
+
+```{r ex2.4}
+data(wage1, package = 'wooldridge')
+
+# OLS regression:
+lm(wage ~ educ, data = wage1)
+
+```
+
+```{r ex2.5}
+data(vote1, package = 'wooldridge')
+
+# OLS regression (parentheses for immediate output):
+(VOTEres <- lm(voteA ~ shareA, data = vote1))
+
+# Scatter plot with regression line:
+with(vote1, plot(shareA, voteA))
+
+abline(VOTEres)
+```
+
+## 2.2 Coefficients, Fitted Values, and Residuals
